@@ -1,10 +1,30 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/User.js');
 
+// Generate Token with More Secure Configuration
+const generateToken = (userId) => {
+  return jwt.sign(
+    { id: userId },
+    process.env.JWT_SECRET,
+    { 
+      expiresIn: '7d',  
+      algorithm: 'HS256' 
+    }
+  );
+};
+
 // Register a new user
 const register = async (req, res) => {
   try {
     const { username, email, password } = req.body;
+
+    // Validate input
+    if (!username || !email || !password) {
+      return res.status(400).json({
+        success: false,
+        message: 'Please provide all required fields'
+      });
+    }
 
     // Check if user already exists
     const existingUser = await User.findOne({ 
@@ -28,11 +48,7 @@ const register = async (req, res) => {
     await newUser.save();
 
     // Create token
-    const token = jwt.sign(
-      { id: newUser._id },
-      process.env.JWT_SECRET,
-      { expiresIn: '30d' }
-    );
+    const token = generateToken(newUser._id);
 
     res.status(201).json({
       success: true,
@@ -57,7 +73,7 @@ const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // Check if email and password are provided
+    // Validate input
     if (!email || !password) {
       return res.status(400).json({
         success: false,
@@ -72,7 +88,7 @@ const login = async (req, res) => {
     if (!user) {
       return res.status(401).json({
         success: false,
-        message: 'Invalid email or password'
+        message: 'Invalid credentials'
       });
     }
 
@@ -81,16 +97,12 @@ const login = async (req, res) => {
     if (!isPasswordCorrect) {
       return res.status(401).json({
         success: false,
-        message: 'Invalid email or password'
+        message: 'Invalid credentials'
       });
     }
 
     // Create token
-    const token = jwt.sign(
-      { id: user._id },
-      process.env.JWT_SECRET,
-      { expiresIn: '30d' }
-    );
+    const token = generateToken(user._id);
 
     res.status(200).json({
       success: true,
