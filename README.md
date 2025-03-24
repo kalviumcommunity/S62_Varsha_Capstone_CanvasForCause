@@ -1,5 +1,6 @@
 # **CanvasForCause**
 ### **A Digital Platform Integrating Technology and Art for Self-Expression and Connection**
+---
 
 
 ## Project Description
