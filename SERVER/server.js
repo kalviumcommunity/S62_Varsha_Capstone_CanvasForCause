@@ -4,6 +4,7 @@ const cors = require('cors');
 const authRoutes = require('./routes/authRoutes.js');
 const artworkRoutes = require('./routes/artworkRoutes.js');
 const commentRoutes = require('./routes/commentRoutes.js');
+const userRoutes = require('./routes/userRoutes.js');
 
 const app = express();
 
@@ -13,6 +14,7 @@ app.use(express.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/artwork', artworkRoutes);
 app.use('/api/comment', commentRoutes);
+app.use('/api/user', userRoutes);
 
 
 const PORT = process.env.PORT||8080;
