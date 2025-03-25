@@ -114,4 +114,71 @@ const getArtworkById = async (req, res) => {
   }
 };
 
-module.exports = {createArtwork, getAllArtworks, getArtworkById};
+
+// Update an artwork
+const updateArtwork = async (req, res) => {
+  try {
+    const artworkId = req.params.id;
+    const { title, description, story } = req.body;
+    if (!title || typeof title !== 'string' || title.trim() === '') {
+      return res.status(400).json({
+        success: false,
+        message: 'Title is required and must be a valid string'
+      });
+    }
+
+    if (story && typeof story !== 'string') {
+      return res.status(400).json({
+        success: false,
+        message: 'Story must be a valid string'
+      });
+    }
+
+    if (description && typeof description !== 'string') {
+      return res.status(400).json({
+        success: false,
+        message: 'Description must be a valid string'
+      });
+    }
+    
+    // Find the artwork
+    let artwork = await Artwork.findById(artworkId);
+    
+    // Check if artwork exists
+    if (!artwork) {
+      return res.status(404).json({
+        success: false,
+        message: 'Artwork not found'
+      });
+    }
+    
+    // Check if user owns the artwork
+    if (artwork.creator.toString() !== req.user.id) {
+      return res.status(401).json({
+        success: false,
+        message: 'Not authorized to update this artwork'
+      });
+    }
+    
+    // Update the artwork
+    artwork = await Artwork.findByIdAndUpdate(
+      artworkId,
+      { title, description, story },
+      { new: true }
+    );
+    
+    res.status(200).json({
+      success: true,
+      data: artwork
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ 
+      success: false, 
+      message: 'Server error updating artwork' 
+    });
+  }
+};
+
+
+module.exports = {createArtwork, getAllArtworks, getArtworkById, updateArtwork};

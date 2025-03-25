@@ -1,8 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const { getAllUsers, getUserById } = require('../controllers/userController.js');
+const authMiddleware = require('../middleware/authMiddleware.js');
+const { getAllUsers, getUserById, updateProfile } = require('../controllers/userController.js');
 
 router.get('/list-users', getAllUsers);
 router.get('/view-user/:id', getUserById);
+router.put('/update-profile' ,authMiddleware, updateProfile);
 
 module.exports = router;
