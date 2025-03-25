@@ -137,11 +137,17 @@ const getCurrentUser = async (req, res) => {
 
 
 // Logout user
-const logout = (req, res) => {
-  res.status(200).json({
-    success: true,
-    message: 'User logged out successfully'
-  });
+const logout = async (req, res) => {
+  try {
+    res.status(200).json({
+      success: true,
+      message: 'User logged out successfully'
+    });
+  } catch (error) { 
+    res.status(500).json({
+      success: false,
+      message: 'Server error during logout'
+    });
+  }
 };
-
 module.exports = {register, login, getCurrentUser, logout};
