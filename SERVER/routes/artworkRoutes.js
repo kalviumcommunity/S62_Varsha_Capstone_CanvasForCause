@@ -7,7 +7,7 @@ const {createArtwork, getAllArtworks, getArtworkById, updateArtwork} = require('
 router.post('/create-artwork', authMiddleware, createArtwork);
 router.get('/list-artworks', getAllArtworks);
 router.get('/view-artwork/:id', getArtworkById);
-router.put('/update-artwork', authMiddleware, updateArtwork);
+router.put('/update-artwork/:id', authMiddleware, updateArtwork);
 
 
 module.exports = router;

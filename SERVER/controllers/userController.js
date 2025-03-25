@@ -66,6 +66,19 @@ const updateProfile = async (req, res) => {
   try {
     const { username, bio } = req.body;
     // Basic validation for username and bio
+    if (username) {
+      const existingUser = await User.findOne({ 
+        username: username, 
+        _id: { $ne: req.user.id } 
+      });
+      
+      if (existingUser) {
+        return res.status(400).json({
+          success: false,
+          message: 'Username already exists'
+        });
+      }
+    }
     if (username && typeof username !== 'string') {
       return res.status(400).json({
         success: false,
