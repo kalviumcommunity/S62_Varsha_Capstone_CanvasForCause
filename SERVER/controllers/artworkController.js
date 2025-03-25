@@ -193,7 +193,6 @@ const toggleLike = async (req, res) => {
               message: 'Invalid artwork ID' 
           });
       }
-
       // Validate user authentication
       if (!req.user || !req.user.id) {
           return res.status(401).json({ 
@@ -201,10 +200,8 @@ const toggleLike = async (req, res) => {
               message: 'Authentication required to like artwork' 
           });
       }
-
       // Find the artwork
       const artwork = await Artwork.findById(artworkId);
-      
       // Check if artwork exists
       if (!artwork) {
           return res.status(404).json({ 
@@ -212,27 +209,21 @@ const toggleLike = async (req, res) => {
               message: 'Artwork not found' 
           });
       }
-
+      // Ensure likes is an array
+      if (!artwork.likes || !Array.isArray(artwork.likes)) {
+          artwork.likes = [];
+      }
       // Check if the artwork has already been liked by this user
       const isLiked = artwork.likes.includes(req.user.id);
-
       if (isLiked) {
           // Unlike the artwork
-          const index = artwork.likes.indexOf(req.user.id);
-          artwork.likes.splice(index, 1);
+          artwork.likes = artwork.likes.filter(
+              likeId => likeId.toString() !== req.user.id.toString()
+          );
       } else {
           // Like the artwork
           artwork.likes.push(req.user.id);
       }
-
-      // Validate likes array before saving
-      if (!Array.isArray(artwork.likes)) {
-          return res.status(500).json({ 
-              success: false, 
-              message: 'Invalid likes data' 
-          });
-      }
-
       // Save the updated artwork
       try {
           await artwork.save();
@@ -240,28 +231,23 @@ const toggleLike = async (req, res) => {
           console.error('Save Artwork Error:', saveError);
           return res.status(500).json({ 
               success: false, 
-              message: 'Failed to save artwork like status',
-              error: saveError.message 
+              message: 'An error occurred while processing your request'
           });
       }
-
       res.status(200).json({ 
           success: true, 
           data: artwork.likes,
           message: isLiked ? 'Artwork unliked successfully' : 'Artwork liked successfully'
       });
-
   } catch (error) {
       console.error('Toggle Like Error:', {
           message: error.message,
           artworkId: req.params.id,
           userId: req.user ? req.user.id : 'Unknown'
       });
-
       res.status(500).json({ 
           success: false, 
-          message: 'Server error while processing like',
-          errorType: error.name 
+          message: 'An error occurred while processing your request'
       });
   }
 };
