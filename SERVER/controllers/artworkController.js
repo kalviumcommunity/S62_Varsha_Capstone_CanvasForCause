@@ -1,5 +1,13 @@
 const Artwork = require('../models/ArtWork.js');
 
+const convertToBoolean = (value) => {
+    if (typeof value === 'boolean') return value;
+    if (typeof value === 'string') {
+      return value.toLowerCase() === 'true';
+    }
+    return Boolean(value);
+};
+
 // Create a new artwork
 const createArtwork = async (req, res) => {
   try {
@@ -18,6 +26,8 @@ const createArtwork = async (req, res) => {
           message: 'Image URL is required'
         });
     }
+
+    const convertedIsDigital = convertToBoolean(isDigital);
     
     // Create new artwork
     const newArtwork = new Artwork({
@@ -25,9 +35,9 @@ const createArtwork = async (req, res) => {
         description: description ? description.trim() : '',
         story: story ? story.trim() : '',
         imageUrl,
-        cloudinaryId: 'placeholder-id', // I'll update this later
+        cloudinaryId: null, // I'll update this later
         creator: req.user.id,
-        isDigital: isDigital === 'true'
+        isDigital: convertedIsDigital
     });
     
     await newArtwork.save();
