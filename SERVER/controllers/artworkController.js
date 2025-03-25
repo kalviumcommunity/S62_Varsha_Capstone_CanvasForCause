@@ -1,4 +1,6 @@
+const mongoose = require('mongoose');
 const Artwork = require('../models/ArtWork.js');
+
 
 const convertToBoolean = (value) => {
     if (typeof value === 'boolean') return value;
@@ -6,8 +8,7 @@ const convertToBoolean = (value) => {
       return value.toLowerCase() === 'true';
     }
     return Boolean(value);
-};
-
+}
 // Create a new artwork
 const createArtwork = async (req, res) => {
   try {
@@ -90,6 +91,7 @@ const getArtworkById = async (req, res) => {
     }
     
     const artwork = await Artwork.findById(artworkId)
+    //Relation between entities
       .populate('creator', 'username avatar')
       .populate('likes', 'username');
     
@@ -180,5 +182,88 @@ const updateArtwork = async (req, res) => {
   }
 };
 
+//Relation between entities
+const toggleLike = async (req, res) => {
+  try {
+      // Validate artwork ID
+      const artworkId = req.params.id;
+      if (!artworkId || !mongoose.Types.ObjectId.isValid(artworkId)) {
+          return res.status(400).json({ 
+              success: false, 
+              message: 'Invalid artwork ID' 
+          });
+      }
 
-module.exports = {createArtwork, getAllArtworks, getArtworkById, updateArtwork};
+      // Validate user authentication
+      if (!req.user || !req.user.id) {
+          return res.status(401).json({ 
+              success: false, 
+              message: 'Authentication required to like artwork' 
+          });
+      }
+
+      // Find the artwork
+      const artwork = await Artwork.findById(artworkId);
+      
+      // Check if artwork exists
+      if (!artwork) {
+          return res.status(404).json({ 
+              success: false, 
+              message: 'Artwork not found' 
+          });
+      }
+
+      // Check if the artwork has already been liked by this user
+      const isLiked = artwork.likes.includes(req.user.id);
+
+      if (isLiked) {
+          // Unlike the artwork
+          const index = artwork.likes.indexOf(req.user.id);
+          artwork.likes.splice(index, 1);
+      } else {
+          // Like the artwork
+          artwork.likes.push(req.user.id);
+      }
+
+      // Validate likes array before saving
+      if (!Array.isArray(artwork.likes)) {
+          return res.status(500).json({ 
+              success: false, 
+              message: 'Invalid likes data' 
+          });
+      }
+
+      // Save the updated artwork
+      try {
+          await artwork.save();
+      } catch (saveError) {
+          console.error('Save Artwork Error:', saveError);
+          return res.status(500).json({ 
+              success: false, 
+              message: 'Failed to save artwork like status',
+              error: saveError.message 
+          });
+      }
+
+      res.status(200).json({ 
+          success: true, 
+          data: artwork.likes,
+          message: isLiked ? 'Artwork unliked successfully' : 'Artwork liked successfully'
+      });
+
+  } catch (error) {
+      console.error('Toggle Like Error:', {
+          message: error.message,
+          artworkId: req.params.id,
+          userId: req.user ? req.user.id : 'Unknown'
+      });
+
+      res.status(500).json({ 
+          success: false, 
+          message: 'Server error while processing like',
+          errorType: error.name 
+      });
+  }
+};
+
+module.exports = {createArtwork, getAllArtworks, getArtworkById, updateArtwork, toggleLike};
