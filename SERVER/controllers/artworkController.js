@@ -225,15 +225,8 @@ const toggleLike = async (req, res) => {
           artwork.likes.push(req.user.id);
       }
       // Save the updated artwork
-      try {
-          await artwork.save();
-      } catch (saveError) {
-          console.error('Save Artwork Error:', saveError);
-          return res.status(500).json({ 
-              success: false, 
-              message: 'An error occurred while processing your request'
-          });
-      }
+      await artwork.save();
+      
       res.status(200).json({ 
           success: true, 
           data: artwork.likes,
