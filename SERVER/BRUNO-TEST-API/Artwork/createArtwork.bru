@@ -1,0 +1,25 @@
+meta {
+  name: createArtwork
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://localhost:8080/api/artwork/create-artwork
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZTNhNmFjMmFjNWYzMDE2YmYyMGEwMSIsImlhdCI6MTc0Mjk3Mjg2MywiZXhwIjoxNzQzNTc3NjYzfQ.5-Ix1ATtbovS_4hYqgeeEcHxA0SrgLnTN1by2HOf9G0
+}
+
+body:json {
+  {
+      "title":"Heavy nights",
+      "description":"Nights are always very heavy for few",
+      "story":"The city lights flickered in the distance, but here, in the quiet embrace of the old wooden bridge, only the sound of rustling leaves and distant waves filled the air. It was the place—where whispered secrets felt safe, where the weight of the world melted away.Tonight, the air was different.",
+      "imageUrl":"https://i.pinimg.com/736x/01/44/1e/01441e6bb55fbbcd8f1b7d168ddd456b.jpg",
+      "isDigital":false
+  }
+}

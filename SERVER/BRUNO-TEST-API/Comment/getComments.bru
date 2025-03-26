@@ -1,0 +1,15 @@
+meta {
+  name: getComments
+  type: http
+  seq: 2
+}
+
+get {
+  url: http://localhost:8080/api/comment/artwork-comments/:artworkId
+  body: none
+  auth: inherit
+}
+
+params:path {
+  artworkId: 67e3a8fb2ac5f3016bf20a07
+}

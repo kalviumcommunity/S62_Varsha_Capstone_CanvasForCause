@@ -1,0 +1,25 @@
+meta {
+  name: addComment
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://localhost:8080/api/comment/add-comment/:artworkId
+  body: json
+  auth: bearer
+}
+
+params:path {
+  artworkId: 67e3a8fb2ac5f3016bf20a07
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZTNhNmFjMmFjNWYzMDE2YmYyMGEwMSIsImlhdCI6MTc0Mjk3Mjk1MiwiZXhwIjoxNzQzNTc3NzUyfQ.wLjtBLyFy4xxyvaEJvPeVRxUdP-s5lk64aiGvi9UXeE
+}
+
+body:json {
+  {
+    "text":"Everything will be alright"
+  }
+}
