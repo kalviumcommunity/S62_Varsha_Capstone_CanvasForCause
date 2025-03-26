@@ -21,6 +21,10 @@ app.use('/api/comment', commentRoutes);
 app.use('/api/user', userRoutes);
 
 
+app.get('/', (req,res)=>{
+  return res.status(200).send("Welcome to CanvasForCause");
+})
+
 const PORT = process.env.PORT||8080;
 
 app.listen(PORT, () => {
