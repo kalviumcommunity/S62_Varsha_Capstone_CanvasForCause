@@ -1,0 +1,21 @@
+meta {
+  name: updateProfile
+  type: http
+  seq: 3
+}
+
+put {
+  url: http://localhost:8080/api/user/update-profile
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZTNhNmFjMmFjNWYzMDE2YmYyMGEwMSIsImlhdCI6MTc0Mjk3Mjk1MiwiZXhwIjoxNzQzNTc3NzUyfQ.wLjtBLyFy4xxyvaEJvPeVRxUdP-s5lk64aiGvi9UXeE
+}
+
+body:json {
+  {
+    "username":"Alexander"
+  }
+}

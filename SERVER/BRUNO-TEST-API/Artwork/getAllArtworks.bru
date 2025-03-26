@@ -1,0 +1,11 @@
+meta {
+  name: getAllArtworks
+  type: http
+  seq: 2
+}
+
+get {
+  url: http://localhost:8080/api/artwork/list-artworks
+  body: none
+  auth: inherit
+}

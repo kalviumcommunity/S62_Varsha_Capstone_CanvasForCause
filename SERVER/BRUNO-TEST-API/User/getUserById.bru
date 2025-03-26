@@ -1,0 +1,15 @@
+meta {
+  name: getUserById
+  type: http
+  seq: 2
+}
+
+get {
+  url: http://localhost:8080/api/user/view-user/:id
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id: 67e3a6ac2ac5f3016bf20a01
+}

@@ -1,0 +1,19 @@
+meta {
+  name: toggleLike
+  type: http
+  seq: 5
+}
+
+post {
+  url: http://localhost:8080/api/artwork/toggle-like/:id
+  body: none
+  auth: bearer
+}
+
+params:path {
+  id: 67e3a8fb2ac5f3016bf20a07
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZTNhNmFjMmFjNWYzMDE2YmYyMGEwMSIsImlhdCI6MTc0Mjk3Mjk1MiwiZXhwIjoxNzQzNTc3NzUyfQ.wLjtBLyFy4xxyvaEJvPeVRxUdP-s5lk64aiGvi9UXeE
+}
