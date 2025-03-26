@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Comment = require('../models/Comment.js');
 const Artwork = require('../models/ArtWork.js');
 
-// Add a comment to an artwork
+// Database Write: Add new comment to an artwork
 const addComment = async (req, res) => {
   try {
     const artworkId = req.params.artworkId;
@@ -51,7 +51,7 @@ const addComment = async (req, res) => {
   }
 };
 
-// Get all comments for an artwork
+// Database Read: Retrieve comments for a specific artwork
 const getComments = async (req, res) => {
   try {
     const artworkId = req.params.artworkId;

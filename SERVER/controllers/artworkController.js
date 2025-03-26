@@ -9,7 +9,7 @@ const convertToBoolean = (value) => {
     }
     return Boolean(value);
 }
-// Create a new artwork
+// Database Write: Create new artwork document in MongoDB with user details
 const createArtwork = async (req, res) => {
   try {
     const { title, description, story, imageUrl, isDigital } = req.body;
@@ -57,7 +57,7 @@ const createArtwork = async (req, res) => {
   }
 };
 
-// Get all artworks
+// Database Read: Retrieve all artworks with creator details
 const getAllArtworks = async (req, res) => {
   try {
     const artworks = await Artwork.find()
@@ -78,7 +78,7 @@ const getAllArtworks = async (req, res) => {
   }
 };
 
-// Get a single artwork by ID
+// Database Read: Fetch single artwork by its unique identifier
 const getArtworkById = async (req, res) => {
   try {
     const artworkId = req.params.id;
@@ -117,7 +117,7 @@ const getArtworkById = async (req, res) => {
 };
 
 
-// Update an artwork
+// Database Write: Update existing artwork details
 const updateArtwork = async (req, res) => {
   try {
     const artworkId = req.params.id;
@@ -183,6 +183,7 @@ const updateArtwork = async (req, res) => {
 };
 
 //Relation between entities
+// Database Write: Toggle like status for an artwork
 const toggleLike = async (req, res) => {
   try {
       // Validate artwork ID

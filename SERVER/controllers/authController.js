@@ -1,7 +1,8 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/User.js');
 
-// Register a new user
+
+// Database Write: User registration creates a new user document in MongoDB
 const register = async (req, res) => {
   try {
     const { username, email, password } = req.body;
@@ -52,7 +53,7 @@ const register = async (req, res) => {
   }
 };
 
-// Login an existing user
+
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -110,7 +111,7 @@ const login = async (req, res) => {
   }
 };
 
-// Get current user profile
+// Database Read: Retrieve current user profile information
 const getCurrentUser = async (req, res) => {
   try {
     const user = await User.findById(req.user.id);
