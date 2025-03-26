@@ -1,7 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-// Imported databse connection function
+// Imported database connection function
 const connectDatabase = require('./config/database.js');
 const authRoutes = require('./routes/authRoutes.js');
 const artworkRoutes = require('./routes/artworkRoutes.js');
