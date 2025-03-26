@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const User = require('../models/User.js');
 
-// Get all users
+// Database Read: Retrieve list of all user profiles
 const getAllUsers = async (req, res) => {
   try {
     const users = await User.find().select('username avatar bio createdAt');
@@ -20,7 +20,7 @@ const getAllUsers = async (req, res) => {
   }
 };
 
-// Get user by ID
+// Database Read: Fetch specific user by unique identifier
 const getUserById = async (req, res) => {
   try {
     const userId = req.params.id;
@@ -61,7 +61,7 @@ const getUserById = async (req, res) => {
 };
 
 
-// Update user profile
+// Database Write: Update user profile information
 const updateProfile = async (req, res) => {
   try {
     const { username, bio } = req.body;
