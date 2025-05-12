@@ -7,10 +7,14 @@ export default {
   theme: {
     extend: {
       colors: {
-        charcoal: "#333344",
-        coral: "#FF7F6B",     
-        purple: "#6B4EE6",    
-        lavender: "#E9E4FF",  
+        charcoal: " #333344",
+        coral: " #FF7F6B",
+        purple: " #6B4EE6",
+        lavender: " #E9E4FF",
+        teal: " #4EC5E6",
+      },
+      backgroundImage: {
+        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
       },
     },
   },
