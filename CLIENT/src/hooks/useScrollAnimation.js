@@ -20,6 +20,7 @@ export const useScrollAnimation = () => {
       fadeElements.forEach(element => {
         observer.unobserve(element);
       });
+      observer.disconnect();
     };
   }, []);
 };

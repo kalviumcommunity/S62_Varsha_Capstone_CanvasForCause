@@ -4,6 +4,7 @@ const StatsCounter = ({ stat, label }) => {
   const [count, setCount] = useState(0);
   const countRef = useRef(null);
   const observedRef = useRef(false);
+  const counterIntervalRef = useRef(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -20,12 +21,12 @@ const StatsCounter = ({ stat, label }) => {
           let currentCount = 0;
           let frame = 0;
           
-          const counter = setInterval(() => {
+          counterIntervalRef.current = setInterval(() => {
             frame++;
             currentCount += countIncrement;
             
             if (frame === totalFrames) {
-              clearInterval(counter);
+              clearInterval(counterIntervalRef.current);
               setCount(target);
             } else {
               setCount(Math.floor(currentCount));
@@ -35,14 +36,19 @@ const StatsCounter = ({ stat, label }) => {
       },
       { threshold: 0.5 }
     );
-
+    
     if (countRef.current) {
       observer.observe(countRef.current);
     }
 
     return () => {
+      if (counterIntervalRef.current) {
+        clearInterval(counterIntervalRef.current);
+      }
+      
       if (countRef.current) {
         observer.unobserve(countRef.current);
+        observer.disconnect();
       }
     };
   }, [stat]);

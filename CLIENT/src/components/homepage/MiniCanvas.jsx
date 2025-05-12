@@ -40,10 +40,12 @@ const MiniCanvas = () => {
       clientY = touch.clientY - rect.top;
     }
     
-    setLastPosition({
-      x: clientX,
-      y: clientY
-    });
+    if (clientX !== undefined && clientY !== undefined) {
+        setLastPosition({
+            x: clientX,
+            y: clientY
+        });
+    }
   };
   
   const draw = (e) => {
