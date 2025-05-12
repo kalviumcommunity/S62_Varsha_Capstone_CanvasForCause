@@ -44,4 +44,5 @@
   .section-header p {
     @apply text-lg max-w-xl mx-auto text-charcoal opacity-70;
   }
+  
 }
