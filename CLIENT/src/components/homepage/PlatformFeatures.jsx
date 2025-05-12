@@ -6,14 +6,14 @@ gsap.registerPlugin(ScrollTrigger);
 
 const Feature = ({ icon, title, description }) => {
   return (
-    <div className="bg-white rounded-2xl p-10 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl flex flex-col">
-      <div className="w-16 h-16 bg-lavender rounded-lg flex items-center justify-center text-purple mb-6">
+    <div className="bg-white rounded-2xl p-8 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl flex flex-col h-full">
+      <div className="w-14 h-14 bg-lavender rounded-lg flex items-center justify-center text-purple mb-4">
         {icon}
       </div>
-      <h3 className="text-2xl font-semibold mb-4">{title}</h3>
+      <h3 className="text-2xl font-semibold mb-3">{title}</h3>
       <p className="text-charcoal/70 mb-6">{description}</p>
-      <div className="mt-auto w-full h-48 bg-lavender rounded-xl overflow-hidden flex items-center justify-center">
-        <img src="https://via.placeholder.com/400x200" alt={title} />
+      <div className="mt-auto w-full h-40 bg-lavender rounded-xl overflow-hidden flex items-center justify-center">
+        <img src="/api/placeholder/300/150" alt={title} />
       </div>
     </div>
   );
@@ -69,63 +69,65 @@ const Features = () => {
           </p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-          <div className="fade-in">
-            <Feature 
-              icon={
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M21.7 13.35l-9.38-10a2 2 0 0 0-2.83-.13l-8.36 7.53a2 2 0 0 0-.15 2.83l8.17 9.13a2 2 0 0 0 2.83.13l9.38-8.2a2 2 0 0 0 .34-2.8z"></path>
-                  <path d="M12.01 15V9"></path>
-                  <path d="M9 12.01h6"></path>
-                </svg>
-              }
-              title="Virtual Canvas"
-              description="Create digital artwork with our intuitive drawing tools. Express yourself freely with various brushes, colors, and effects."
-            />
-          </div>
-          
-          <div className="fade-in">
-            <Feature 
-              icon={
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path>
-                  <line x1="4" y1="22" x2="4" y2="15"></line>
-                </svg>
-              }
-              title="Community Gallery"
-              description="Share your artwork with a supportive community. Engage through likes, comments, and meaningful interactions."
-            />
-          </div>
-          
-          <div className="fade-in">
-            <Feature 
-              icon={
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-                  <path d="M17 8h.01"></path>
-                  <path d="M13 8h.01"></path>
-                  <path d="M9 8h.01"></path>
-                </svg>
-              }
-              title="Storytelling"
-              description="Tell the stories behind your art. Connect emotions to your creations and build deeper understanding through shared experiences."
-            />
-          </div>
-          
-          <div className="fade-in">
-            <Feature 
-              icon={
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M17 8h.01"></path>
-                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                  <circle cx="12" cy="13" r="3"></circle>
-                  <path d="M16.5 17.5l-2.5-2.5"></path>
-                  <path d="M7.5 17.5l2.5-2.5"></path>
-                </svg>
-              }
-              title="Personalized Dashboard"
-              description="Keep track of your creative journey with a customized dashboard. Monitor your activity, interactions, and saved artwork."
-            />
+        <div className="max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+            <div className="fade-in">
+              <Feature 
+                icon={
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M21.7 13.35l-9.38-10a2 2 0 0 0-2.83-.13l-8.36 7.53a2 2 0 0 0-.15 2.83l8.17 9.13a2 2 0 0 0 2.83.13l9.38-8.2a2 2 0 0 0 .34-2.8z"></path>
+                    <path d="M12.01 15V9"></path>
+                    <path d="M9 12.01h6"></path>
+                  </svg>
+                }
+                title="Virtual Canvas"
+                description="Create digital artwork with our intuitive drawing tools. Express yourself freely with various brushes, colors, and effects."
+              />
+            </div>
+            
+            <div className="fade-in">
+              <Feature 
+                icon={
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path>
+                    <line x1="4" y1="22" x2="4" y2="15"></line>
+                  </svg>
+                }
+                title="Community Gallery"
+                description="Share your artwork with a supportive community. Engage through likes, comments, and meaningful interactions."
+              />
+            </div>
+            
+            <div className="fade-in">
+              <Feature 
+                icon={
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                    <path d="M17 8h.01"></path>
+                    <path d="M13 8h.01"></path>
+                    <path d="M9 8h.01"></path>
+                  </svg>
+                }
+                title="Storytelling"
+                description="Tell the stories behind your art. Connect emotions to your creations and build deeper understanding through shared experiences."
+              />
+            </div>
+            
+            <div className="fade-in">
+              <Feature 
+                icon={
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M17 8h.01"></path>
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                    <circle cx="12" cy="13" r="3"></circle>
+                    <path d="M16.5 17.5l-2.5-2.5"></path>
+                    <path d="M7.5 17.5l2.5-2.5"></path>
+                  </svg>
+                }
+                title="Personalized Dashboard"
+                description="Keep track of your creative journey with a customized dashboard. Monitor your activity, interactions, and saved artwork."
+              />
+            </div>
           </div>
         </div>
       </div>
