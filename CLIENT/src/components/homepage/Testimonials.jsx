@@ -53,8 +53,8 @@ const Testimonials = () => {
         </div>
         
         <div className="flex flex-col md:flex-row justify-between gap-8">
-          {testimonials.map((testimonial, index) => (
-            <TestimonialCard key={index} {...testimonial} />
+          {testimonials.map((testimonial) => (
+            <TestimonialCard key={`${testimonial.name}-${testimonial.initials}`} {...testimonial} />
           ))}
         </div>
       </div>
