@@ -13,7 +13,7 @@ const Feature = ({ icon, title, description }) => {
       <h3 className="text-2xl font-semibold mb-4">{title}</h3>
       <p className="text-charcoal/70 mb-6">{description}</p>
       <div className="mt-auto w-full h-48 bg-lavender rounded-xl overflow-hidden flex items-center justify-center">
-        <img src="/api/placeholder/400/200" alt={title} />
+        <img src="https://via.placeholder.com/400x200" alt={title} />
       </div>
     </div>
   );
@@ -22,9 +22,10 @@ const Feature = ({ icon, title, description }) => {
 const Features = () => {
   useEffect(() => {
     const fadeElements = document.querySelectorAll('.fade-in');
+    const animations = [];
     
     fadeElements.forEach(element => {
-      gsap.fromTo(
+      const anim = gsap.fromTo(
         element, 
         { opacity: 0, y: 20 }, 
         {
@@ -37,7 +38,12 @@ const Features = () => {
           }
         }
       );
+      animations.push(anim);
     });
+    return () => {
+        animations.forEach(anim => anim.kill());
+        ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+    };
   }, []);
 
   return (
