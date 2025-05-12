@@ -9,7 +9,7 @@ const CTA = () => {
     const ctaSection = document.querySelector('.cta');
     
     if (ctaSection) {
-      gsap.fromTo(
+      const animation = gsap.fromTo(
         '.cta-content', 
         { opacity: 0, y: 30 }, 
         {
@@ -22,6 +22,11 @@ const CTA = () => {
           }
         }
       );
+      return () => {
+        if (animation.scrollTrigger) {
+          animation.scrollTrigger.kill();
+        }
+      };
     }
   }, []);
 
@@ -42,14 +47,18 @@ const CTA = () => {
           </p>
           <div className="cta-buttons flex justify-center gap-4">
             <a 
-              href="#" 
+              href="/join-community" 
               className="btn bg-white text-purple px-6 py-2 rounded-full text-sm font-medium hover:bg-lavender"
+              aria-label="Join our creative community"
+              role="button"
             >
               Join Our Creative Community
             </a>
             <a 
-              href="#" 
+              href="/gallery" 
               className="btn btn-secondary bg-transparent border border-white text-white px-6 py-2 rounded-full text-sm font-medium hover:bg-white/10"
+              aria-label="Explore our gallery"
+              role="button"
             >
               Explore the Gallery
             </a>
