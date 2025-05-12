@@ -1,13 +1,10 @@
 import React from 'react';
-import './App.css'
+import Navbar from './components/homepage/Navbar';
 
 function App() {
-  
-
-  return (
+  return(
     <>
-    <h1> CanvasForCause</h1>
-    <h2>Where Creativity Meets Connection and Stories Find a Home</h2>
+    <Navbar/>
     </>
   )
 }
