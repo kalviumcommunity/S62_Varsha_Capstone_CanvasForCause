@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import CanvasForCauseLogo from "/src/assets/icons/CanvasForCauseLogo.png"
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -27,7 +28,7 @@ const Navbar = () => {
       <div className="container mx-auto max-w-6xl px-5 flex justify-between items-center">
         <a href="#" className="flex items-center font-bold text-2xl text-purple">
           <img 
-            src="/src/assets/icons/CanvasForCauseLogo.png" 
+            src={CanvasForCauseLogo}
             alt="CanvasForCause Logo" 
             className="mr-2.5" 
             width="36" 
@@ -56,6 +57,8 @@ const Navbar = () => {
         <button 
           className="block md:hidden bg-transparent border-none text-2xl cursor-pointer text-charcoal"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          aria-label="Toggle mobile menu"
+          aria-expanded={mobileMenuOpen}
         >
           ☰
         </button>
