@@ -5,6 +5,7 @@ import HowItWorks from './components/homepage/HowItWorks';
 import useScrollAnimation from './hooks/useScrollAnimation';
 import Features from './components/homepage/PlatformFeatures';
 import Testimonials from './components/homepage/Testimonials';
+import CTA from './components/homepage/CTA';
 
 function App() {
   useScrollAnimation();
@@ -15,6 +16,7 @@ function App() {
       <HowItWorks/>
       <Features/>
       <Testimonials/>
+      <CTA/>
     </>
   )
 }
