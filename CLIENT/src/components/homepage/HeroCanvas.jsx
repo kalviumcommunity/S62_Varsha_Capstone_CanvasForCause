@@ -70,6 +70,7 @@ const HeroCanvas = () => {
             ctx.stroke();
           }
         }
+        ctx.globalAlpha = 1;
       }
     }
     

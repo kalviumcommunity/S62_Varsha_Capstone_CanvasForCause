@@ -7,7 +7,7 @@ const Hero = () => {
         <HeroCanvas />
         <div className="container mx-auto px-4">
             <div className="flex flex-col items-center text-center">
-                <h1 className="text-5xl md:text-6xl font-semibold leading-tight mb-6 bg-gradient-to-r from-purple via-blue-500 to-teal/100 bg-clip-text text-transparent">
+                <h1 className="text-5xl md:text-6xl font-semibold leading-tight mb-6 bg-gradient-to-r from-purple via-blue-500 to-teal bg-clip-text text-transparent">
                 Turn Your Art Into Connection
                 </h1>
                 
