@@ -92,7 +92,7 @@ const Navbar = () => {
             <li className="py-2">
               <a 
                 href="#testimonials" 
-                className="font-medium transition-colors hover:text-purple"
+                className="text-black-500 font-medium transition-colors hover:text-purple"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Community
@@ -102,7 +102,7 @@ const Navbar = () => {
               <a href="#" className="btn bg-purple hover:shadow-purple/30 py-2.5 px-5 w-24 text-center" onClick={() => setMobileMenuOpen(false)}>Login</a>
             </li>
             <li className="py-2 mt-2">
-              <a href="#" className="btn btn-secondary bg-lavender rounded-full py-2.5 px-5 w-24 text-center" onClick={() => setMobileMenuOpen(false)}>Sign Up</a>
+              <a href="#" className="btn btn-secondary bg-lavender py-2.5 px-5 w-24 text-center" onClick={() => setMobileMenuOpen(false)}>Sign Up</a>
             </li>
           </ul>
         </div>

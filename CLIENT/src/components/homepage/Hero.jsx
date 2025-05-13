@@ -11,7 +11,7 @@ const Hero = () => {
                 Turn Your Art Into Connection
                 </h1>
                 
-                <p className="text-lg md:text-l max-w-2xl mb-8 text-black-500">
+                <p className="text-lg md:text-lg max-w-2xl mb-8 text-gray-900">
                 CanvasForCause is a digital platform that bridges art and emotion,
                 creating a space where your creative expression becomes a medium for
                 connection, storytelling, and personal growth.
