@@ -4,9 +4,9 @@ import StatsCounter from './StatsCounter';
 
 const HowItWorks = () => {
   return (
-    <section id="how-it-works" className="py-24 bg-white">
+    <section id="how-it-works" className="pt-6 pb-24 bg-white">
       <div className="container mx-auto max-w-6xl px-5">
-        <div className="section-header fade-in opacity-0 translate-y-5 transition-all duration-700">
+        <div className="section-header">
           <h2>How It Works</h2>
           <p>Join our creative community in three simple steps</p>
         </div>
@@ -57,7 +57,7 @@ const HowItWorks = () => {
           </div>
         </div>
         
-        <div className="fade-in opacity-0 bg-white rounded-2xl translate-y-5 shadow-[0_8px_30px_rgba(106,90,205,0.12)] transition-all duration-700 delay-300">
+        <div className="shadow-[0_8px_30px_rgba(106,90,205,0.12)]">
           <MiniCanvas />
         </div>
         
