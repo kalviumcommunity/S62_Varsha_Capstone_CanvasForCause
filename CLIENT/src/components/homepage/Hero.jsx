@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import HeroCanvas from './HeroCanvas';
 
 const Hero = () => {
@@ -18,7 +19,7 @@ const Hero = () => {
                 </p>
                 
                 <div className="flex flex-col md:flex-row gap-4">
-                    <button className="btn bg-purple hover:shadow-purple/30">Start Creating</button>
+                    <Link to="/signup" className="btn bg-purple hover:shadow-purple/30">Start Creating</Link>
                     <button className="btn btn-secondary bg-lavender">Explore Gallery</button>
                 </div>
                 
