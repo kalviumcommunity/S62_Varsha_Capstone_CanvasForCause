@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import HeroCanvas from '../homepage/HeroCanvas';
+import { validateForm } from '../../utils/validationUtils';
 
 const Signup = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: '',
     username: '',
@@ -10,6 +13,10 @@ const Signup = () => {
     confirmPassword: '',
     termsAgreed: false
   });
+  
+  const [errors, setErrors] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formSuccess, setFormSuccess] = useState(false);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -17,21 +24,52 @@ const Signup = () => {
       ...prevState,
       [name]: type === 'checkbox' ? checked : value
     }));
+    
+    // Clear error when user starts typing
+    if (errors[name]) {
+      setErrors(prevErrors => ({
+        ...prevErrors,
+        [name]: ''
+      }));
+    }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Form submission logic would go here
-    // console.log('Form submitted:', formData);
-    setFormData({
-    name: '',
-    username: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-    termsAgreed: false
-  });
     
+    // Validate form
+    const validationErrors = validateForm(formData);
+    setErrors(validationErrors);
+    
+    // If no errors, proceed with form submission
+    if (Object.keys(validationErrors).length === 0) {
+      setIsSubmitting(true);
+      
+      // Simulate API call
+      setTimeout(() => {
+        // Form submission logic would go here
+        // In a real implementation, here make an API call to the backend
+        // using the authController.register endpoint
+        
+        setIsSubmitting(false);
+        setFormSuccess(true);
+        
+        // Reset form after successful submission
+        setFormData({
+          name: '',
+          username: '',
+          email: '',
+          password: '',
+          confirmPassword: '',
+          termsAgreed: false
+        });
+        
+        // Reset success message after 3 seconds
+        setTimeout(() => {
+          navigate('/login');
+        }, 3000);
+      }, 1000);
+    }
   };
 
   return (
@@ -60,6 +98,12 @@ const Signup = () => {
               <p className="text-charcoal/70 mt-1">Start your creative journey with us</p>
             </div>
             
+            {formSuccess && (
+              <div className="mb-4 text-purple font-medium text-center">
+                Signup successful! Redirecting to login page...
+              </div>
+            )}
+            
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
@@ -70,10 +114,12 @@ const Signup = () => {
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
-                    className="w-full px-4 py-2.5 rounded-full border border-lavender focus:border-purple focus:ring-2 focus:ring-purple/30 outline-none transition-all"
+                    className={`w-full px-4 py-2.5 rounded-full border ${errors.name ? 'border-red-500' : 'border-lavender'} focus:border-purple focus:ring-2 focus:ring-purple/30 outline-none transition-all`}
                     placeholder=""
-                    required
                   />
+                  {errors.name && (
+                    <p className="mt-1 text-red-500 text-sm">{errors.name}</p>
+                  )}
                 </div>
                 
                 <div>
@@ -84,10 +130,12 @@ const Signup = () => {
                     name="username"
                     value={formData.username}
                     onChange={handleChange}
-                    className="w-full px-4 py-2.5 rounded-full border border-lavender focus:border-purple focus:ring-2 focus:ring-purple/30 outline-none transition-all"
+                    className={`w-full px-4 py-2.5 rounded-full border ${errors.username ? 'border-red-500' : 'border-lavender'} focus:border-purple focus:ring-2 focus:ring-purple/30 outline-none transition-all`}
                     placeholder=""
-                    required
                   />
+                  {errors.username && (
+                    <p className="mt-1 text-red-500 text-sm">{errors.username}</p>
+                  )}
                 </div>
               </div>
               
@@ -99,10 +147,12 @@ const Signup = () => {
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className="w-full px-4 py-2.5 rounded-full border border-lavender focus:border-purple focus:ring-2 focus:ring-purple/30 outline-none transition-all"
+                  className={`w-full px-4 py-2.5 rounded-full border ${errors.email ? 'border-red-500' : 'border-lavender'} focus:border-purple focus:ring-2 focus:ring-purple/30 outline-none transition-all`}
                   placeholder=""
-                  required
                 />
+                {errors.email && (
+                  <p className="mt-1 text-red-500 text-sm">{errors.email}</p>
+                )}
               </div>
               
               <div>
@@ -113,11 +163,12 @@ const Signup = () => {
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
-                  className="w-full px-4 py-2.5 rounded-full border border-lavender focus:border-purple focus:ring-2 focus:ring-purple/30 outline-none transition-all"
+                  className={`w-full px-4 py-2.5 rounded-full border ${errors.password ? 'border-red-500' : 'border-lavender'} focus:border-purple focus:ring-2 focus:ring-purple/30 outline-none transition-all`}
                   placeholder="6+ characters"
-                  required
-                  minLength={6}
                 />
+                {errors.password && (
+                  <p className="mt-1 text-red-500 text-sm">{errors.password}</p>
+                )}
               </div>
               <div>
                 <label htmlFor="confirmPassword" className="block text-charcoal font-medium mb-1">Confirm Password</label>
@@ -127,11 +178,12 @@ const Signup = () => {
                   name="confirmPassword"
                   value={formData.confirmPassword}
                   onChange={handleChange}
-                  className="w-full px-4 py-2.5 rounded-full border border-lavender focus:border-purple focus:ring-2 focus:ring-purple/30 outline-none transition-all"
+                  className={`w-full px-4 py-2.5 rounded-full border ${errors.confirmPassword ? 'border-red-500' : 'border-lavender'} focus:border-purple focus:ring-2 focus:ring-purple/30 outline-none transition-all`}
                   placeholder=""
-                  required
-                  minLength={6}
                 />
+                {errors.confirmPassword && (
+                  <p className="mt-1 text-red-500 text-sm">{errors.confirmPassword}</p>
+                )}
               </div>
               
               <div className="flex items-start mt-2">
@@ -142,23 +194,26 @@ const Signup = () => {
                     type="checkbox"
                     checked={formData.termsAgreed}
                     onChange={handleChange}
-                    className="w-4 h-4 border border-lavender rounded focus:ring-purple text-purple"
-                    required
+                    className={`w-4 h-4 border ${errors.termsAgreed ? 'border-red-500' : 'border-lavender'} rounded focus:ring-purple text-purple`}
                   />
                 </div>
                 <div className="ml-3 text-sm">
-                  <label htmlFor="termsAgreed" className="text-charcoal">
+                  <label htmlFor="termsAgreed" className={`${errors.termsAgreed ? 'text-red-500' : 'text-charcoal'}`}>
                     I agree with CanvasForCause's <a href="/terms" className="text-purple hover:underline">Terms of Service</a>, and  <a href="/privacy" className="text-purple hover:underline"> Privacy Policy</a>
                   </label>
+                  {errors.termsAgreed && (
+                    <p className="mt-1 text-red-500 text-sm">{errors.termsAgreed}</p>
+                  )}
                 </div>
               </div>
               
               <div className="pt-2">
                 <button
                   type="submit"
-                  className="w-full bg-purple hover:bg-purple/90 text-white font-semibold py-3 px-7 rounded-full transition-all duration-300 shadow-md hover:shadow-lg hover:shadow-purple/20 hover:-translate-y-0.5"
+                  disabled={isSubmitting}
+                  className="w-full bg-purple hover:bg-purple/90 text-white font-semibold py-3 px-7 rounded-full transition-all duration-300 shadow-md hover:shadow-lg hover:shadow-purple/20 hover:-translate-y-0.5 disabled:opacity-70 disabled:cursor-not-allowed"
                 >
-                  Create Account
+                  {isSubmitting ? 'Creating Account...' : 'Create Account'}
                 </button>
               </div>
             </form>
