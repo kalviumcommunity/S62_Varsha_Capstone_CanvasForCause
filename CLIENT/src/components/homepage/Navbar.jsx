@@ -49,7 +49,7 @@ const Navbar = () => {
               <a href="#testimonials" className="text-black-500 font-medium transition-colors hover:text-purple">Community</a>
             </li>
             <li className="ml-10">
-              <a href="#" className="btn bg-purple hover:shadow-purple/30">Login</a>
+              <a href="/login" className="btn bg-purple hover:shadow-purple/30">Login</a>
             </li>
             <li className="ml-6">
               <a href="/signup" className="btn btn-secondary bg-lavender">Sign Up</a>
@@ -99,7 +99,7 @@ const Navbar = () => {
               </a>
             </li>
             <li className="py-2">
-              <a href="#" className="btn bg-purple hover:shadow-purple/30 py-2.5 px-5 w-24 text-center" onClick={() => setMobileMenuOpen(false)}>Login</a>
+              <a href="/login" className="btn bg-purple hover:shadow-purple/30 py-2.5 px-5 w-24 text-center" onClick={() => setMobileMenuOpen(false)}>Login</a>
             </li>
             <li className="py-2 mt-2">
               <a href="/signup" className="btn btn-secondary bg-lavender py-2.5 px-5 w-24 text-center" onClick={() => setMobileMenuOpen(false)}>Sign Up</a>
