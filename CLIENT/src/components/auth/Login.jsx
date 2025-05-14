@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import HeroCanvas from '../homepage/HeroCanvas';
 import { validateForm } from '../../utils/validationUtils';
 
@@ -142,9 +143,9 @@ const Login = () => {
                   </label>
                 </div>
                 <div>
-                  <a href="/forgot-password" className="text-sm text-purple hover:text-purple/80 transition-colors">
+                  <Link to="/forgot-password" className="text-sm text-purple hover:text-purple/80 transition-colors">
                     Forgot password?
-                  </a>
+                  </Link>
                 </div>
               </div>
               
@@ -162,9 +163,9 @@ const Login = () => {
             <div className="mt-6 text-center">
               <p className="text-charcoal">
                 Don't have an account?{" "}
-                <a href="/signup" className="text-purple font-semibold hover:text-purple/80 transition-colors">
+                <Link to="/signup" className="text-purple font-semibold hover:text-purple/80 transition-colors">
                   Create Account
-                </a>
+                </Link>
               </p>
             </div>
           </div>

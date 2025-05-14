@@ -5,6 +5,17 @@
  */
 export const validateForm = (formData) => {
   const errors = {};
+
+  const validatePassword = (password, isSignup = false) => {
+    if (!password) {
+        return 'Password is required';
+    } else if (password.length < 6) {
+        return 'Password must be at least 6 characters';
+    } else if (isSignup && !/(?=.*[A-Za-z])(?=.*\d)(?=.*[^A-Za-z0-9])/.test(password)) {
+        return 'Must be at least 6 characters and include a letter, number, and special character';
+    }
+    return null;
+}
   
   // For signup form
   if ('name' in formData) {
@@ -32,14 +43,9 @@ export const validateForm = (formData) => {
     }
     
     // Password validation
-    if (!formData.password) {
-        errors.password = 'Password is required';
-    } else if (formData.password.length < 6) {
-        errors.password = 'Password must be at least 6 characters';
-    } else if (
-    !/(?=.*[A-Za-z])(?=.*\d)(?=.*[^A-Za-z0-9])/.test(formData.password)) {
-        errors.password =
-        'Must be at least 6 characters and include a letter, number, and special character';
+    const passwordError = validatePassword(formData.password, true);
+    if (passwordError) {
+        errors.password = passwordError;
     }
     
     // Confirm password validation
@@ -63,11 +69,11 @@ export const validateForm = (formData) => {
     }
     
     // Password validation
-    if (!formData.password) {
-      errors.password = 'Password is required';
-    } else if (formData.password.length < 6) {
-      errors.password = 'Password must be at least 6 characters';
+    const passwordError = validatePassword(formData.password);
+    if (passwordError) {
+        errors.password = passwordError;
     }
+
   }
   
   return errors;

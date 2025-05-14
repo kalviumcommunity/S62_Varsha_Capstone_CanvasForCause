@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import HeroCanvas from '../homepage/HeroCanvas';
 import { validateForm } from '../../utils/validationUtils';
 
@@ -199,7 +199,7 @@ const Signup = () => {
                 </div>
                 <div className="ml-3 text-sm">
                   <label htmlFor="termsAgreed" className={`${errors.termsAgreed ? 'text-red-500' : 'text-charcoal'}`}>
-                    I agree with CanvasForCause's <a href="/terms" className="text-purple hover:underline">Terms of Service</a>, and  <a href="/privacy" className="text-purple hover:underline"> Privacy Policy</a>
+                    I agree with CanvasForCause's <Link to="/terms" className="text-purple hover:underline">Terms of Service</Link>, and  <Link to="/privacy" className="text-purple hover:underline"> Privacy Policy</Link>
                   </label>
                   {errors.termsAgreed && (
                     <p className="mt-1 text-red-500 text-sm">{errors.termsAgreed}</p>
@@ -221,9 +221,9 @@ const Signup = () => {
             <div className="mt-6 text-center">
               <p className="text-charcoal">
                 Already have an account?{" "}
-                <a href="/login" className="text-purple font-semibold hover:text-purple/80 transition-colors">
+                <Link to="/login" className="text-purple font-semibold hover:text-purple/80 transition-colors">
                   Log In
-                </a>
+                </Link>
               </p>
             </div>
           </div>
