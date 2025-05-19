@@ -43,6 +43,7 @@ const Login = () => {
     const loginData = {
       identifier:formData.identifier,
       password:formData.password,
+      rememberMe:formData.rememberMe,
     }
     
     // Validate form
@@ -59,14 +60,6 @@ const Login = () => {
         const response = await authService.login(loginData);
         setIsSubmitting(false);
         setFormSuccess(true);
-
-        if(!formData.rememberMe){
-          localStorage.removeItem('token');
-          localStorage.removeItem('refreshToken');
-          localStorage.removeItem('tokenExpiry');
-          localStorage.removeItem('user');
-
-        }
 
         setFormData({
           identifier:'',

@@ -61,8 +61,6 @@ const register = async (req, res) => {
       email,
       password
     });
-    
-    await newUser.save();
 
     // Create token
     const {token, refreshToken} = generateTokens(newUser._id);
@@ -75,19 +73,19 @@ const register = async (req, res) => {
     res.cookie('accessToken', token, {
       httpOnly:true,
       secure:isProduction,
+      sameSite:'Strict',
       maxAge:15*60*1000,
     })
 
     res.cookie('refreshToken', refreshToken, {
       httpOnly:true,
       secure:isProduction,
+      sameSite:'Strict',
       maxAge:7*24*60*60*1000
     })
 
     res.status(201).json({
       success: true,
-      token,
-      refreshToken,
       expiresIn:15*60,
       user: {
         id: newUser._id,
@@ -107,7 +105,7 @@ const register = async (req, res) => {
 
 const login = async (req, res) => {
   try {
-    const { identifier, password } = req.body;
+    const { identifier, password, rememberMe } = req.body;
 
     // Check if email and password are provided
     if (!identifier || !password) {
@@ -145,21 +143,24 @@ const login = async (req, res) => {
     user.refreshTokenExpiry = refreshExpiry;
     await user.save();
 
+    const accessTokenExpiry = rememberMe ? 15 * 60 * 1000 : undefined; // 15 minutes if remember me
+    const refreshTokenExpiry = rememberMe ? 7 * 24 * 60 * 60 * 1000 : undefined; // 7 days if remember me
+
     res.cookie('accessToken', token, {
       httpOnly:true,
       secure:isProduction,
-      maxAge:15*60*1000,
+      sameSite:'Strict',
+      maxAge:accessTokenExpiry,
     })
     res.cookie('refreshToken', refreshToken, {
       httpOnly:true,
       secure:isProduction,
-      maxAge:7*24*60*60*1000
+      sameSite:'Strict',
+      maxAge:refreshTokenExpiry,
     })
 
     res.status(200).json({
       success: true,
-      token,
-      refreshToken,
       expiresIn:15*60,
       user: {
         id: user._id,
@@ -172,6 +173,27 @@ const login = async (req, res) => {
     res.status(500).json({ 
       success: false, 
       message: 'Server error during login' 
+    });
+  }
+};
+const verifyAuth = async (req, res) => {
+  try {
+    // If the authMiddleware passed, the user is authenticated
+    if (req.user) {
+      return res.status(200).json({
+        success: true,
+        message: 'User is authenticated'
+      });
+    }
+    return res.status(401).json({
+      success: false,
+      message: 'User is not authenticated'
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      message: 'Server error during authentication verification'
     });
   }
 };
@@ -206,11 +228,11 @@ const refreshAccessToken = async(req, res)=>{
     res.cookie('accessToken', newToken, {
       httpOnly:true,
       secure:isProduction,
+      sameSite:'Strict',
       maxAge:15*60*1000
     })
     res.status(200).json({
       success: true,
-      token: newToken,
       expiresIn: 15 * 60 
     });
   }
@@ -271,4 +293,4 @@ const logout = async (req, res) => {
     });
   }
 };
-module.exports = {register, login, getCurrentUser, logout, refreshAccessToken};
+module.exports = {register, login, getCurrentUser, logout, refreshAccessToken, verifyAuth};

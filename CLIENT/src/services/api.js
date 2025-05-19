@@ -10,19 +10,6 @@ const api = axios.create({
     }
 })
 
-api.interceptors.request.use(
-    (config)=>{
-        const token = localStorage.getItem('token');
-        if(token){
-            config.headers.Authorization = `Bearer ${token}`;
-        }
-        return config;
-    },
-    (error)=>{
-        return Promise.reject(error);
-    }
-)
-
 api.interceptors.response.use(
     (response)=>response,
     async(error)=>{
@@ -32,26 +19,11 @@ api.interceptors.response.use(
             originalRequest._retry=true;
 
             try{
-                const refreshResponse = await axios.post(`${API_URL}/auth/refresh-token`, {}, {withCredentials:true});
-
-                const{token, expiresIn} = refreshResponse.data;
-                localStorage.setItem('token', token);
-                const expiryTime = new Date(Date.now()+expiresIn*1000);
-                localStorage.setItem('tokenExpiry', expiryTime.toISOString());
-
-                sessionStorage.setItem('token', token);
-                sessionStorage.setItem('tokenExpiry', expiryTime.toISOString());
-
-                originalRequest.headers.Authorization=`Bearer ${token}`;
+                await axios.post(`${API_URL}/auth/refresh-token`, {}, {withCredentials:true});
                 return api(originalRequest);
             }
             catch(refreshError){
-                localStorage.removeItem('token');
-                localStorage.removeItem('tokenExpiry');
                 localStorage.removeItem('user');
-
-                sessionStorage.removeItem('token');
-                sessionStorage.removeItem('tokenExpiry');
                 sessionStorage.removeItem('user');
 
                 window.location.href= '/login';
