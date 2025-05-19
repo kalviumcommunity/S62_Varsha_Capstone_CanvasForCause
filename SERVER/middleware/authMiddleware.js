@@ -5,9 +5,13 @@ const User = require('../models/User.js');
 const authMiddleware = async (req, res, next) => {
   try {
     let token;
+
+    if(req.cookies.accessToken){
+      token = req.cookies.accessToken;
+    }
     
     // Get token from header
-    if (req.headers.authorization && 
+    else if (req.headers.authorization && 
         req.headers.authorization.startsWith('Bearer')) {
       token = req.headers.authorization.split(' ')[1];
     }
@@ -35,6 +39,13 @@ const authMiddleware = async (req, res, next) => {
       req.user = await User.findById(decoded.id);
       next();
     } catch (error) {
+      if (error.name === 'TokenExpiredError' && req.cookies.refreshToken) {
+        return res.status(401).json({
+          success: false,
+          message: 'Token expired',
+          tokenExpired: true
+        });
+      }
       return res.status(401).json({
         success: false,
         message: 'Not authorized to access this route'
