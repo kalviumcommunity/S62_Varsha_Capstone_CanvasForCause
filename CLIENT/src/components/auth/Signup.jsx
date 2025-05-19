@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import HeroCanvas from '../homepage/HeroCanvas';
 import { validateForm } from '../../utils/validationUtils';
+import authService from '../../services/authService';
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -17,6 +18,7 @@ const Signup = () => {
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formSuccess, setFormSuccess] = useState(false);
+  const [serverError, setServerError] = useState('');
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -32,9 +34,12 @@ const Signup = () => {
         [name]: ''
       }));
     }
+    if(serverError){
+      setServerError('');
+    }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit =  async (e) => {
     e.preventDefault();
     
     // Validate form
@@ -44,31 +49,38 @@ const Signup = () => {
     // If no errors, proceed with form submission
     if (Object.keys(validationErrors).length === 0) {
       setIsSubmitting(true);
-      
-      // Simulate API call
-      setTimeout(() => {
-        // Form submission logic would go here
-        // In a real implementation, here make an API call to the backend
-        // using the authController.register endpoint
-        
+      setServerError('');
+
+      try{
+        const userData = {
+          name:formData.name,
+          username:formData.username,
+          email:formData.email,
+          password:formData.password
+        }
+
+        // eslint-disable-next-line no-unused-vars
+        const response = await authService.register(userData);
         setIsSubmitting(false);
         setFormSuccess(true);
-        
-        // Reset form after successful submission
+
         setFormData({
-          name: '',
-          username: '',
-          email: '',
-          password: '',
-          confirmPassword: '',
-          termsAgreed: false
+          name:'',
+          username:'',
+          email:'',
+          password:'',
+          confirmPassword:'',
+          termsAgreed:false,
         });
-        
-        // Reset success message after 3 seconds
-        setTimeout(() => {
+        setTimeout(()=>{
           navigate('/login');
-        }, 3000);
-      }, 1000);
+        }, 1500);
+      }
+      catch(error){
+        setIsSubmitting(false);
+        setServerError(error.message||'Account registration failed. Please try again');
+        console.error("Registration error", error);
+      }
     }
   };
 
@@ -101,6 +113,12 @@ const Signup = () => {
             {formSuccess && (
               <div className="mb-4 text-purple font-medium text-center">
                 Signup successful! Redirecting to login page...
+              </div>
+            )}
+
+            {serverError && (
+              <div className="mb-4 text-red-500 font-medium text-center">
+                {serverError}
               </div>
             )}
             
