@@ -40,7 +40,7 @@ api.interceptors.response.use(
                 localStorage.setItem('tokenExpiry', expiryTime.toISOString());
 
                 sessionStorage.setItem('token', token);
-                sessionStorage.setItem('expiryTime', expiryTime);
+                sessionStorage.setItem('tokenExpiry', expiryTime.toISOString());
 
                 originalRequest.headers.Authorization=`Bearer ${token}`;
                 return api(originalRequest);

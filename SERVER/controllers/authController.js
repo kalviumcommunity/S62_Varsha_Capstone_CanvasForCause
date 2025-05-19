@@ -178,7 +178,10 @@ const login = async (req, res) => {
 
 const refreshAccessToken = async(req, res)=>{
   try{
-    const{refreshToken} = req.cookies;
+    let refreshToken = req.cookies.refreshToken;
+    if(!refreshToken && req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+     refreshToken = req.headers.authorization.split(' ')[1];
+    }
     if(!refreshToken){
       return res.status(401).json({
         success:false,
@@ -188,7 +191,7 @@ const refreshAccessToken = async(req, res)=>{
     const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
     const user = await User.findById(decoded.id).select('+refreshToken +refreshTokenExpiry');
 
-    if(!user||user.refreshToken!=refreshToken||user.refreshTokenExpiry<new Date()){
+    if(!user||user.refreshToken!==refreshToken||user.refreshTokenExpiry<new Date()){
       return res.status(401).json({
         success:false,
         message:'Invalid refresh token'
@@ -213,7 +216,7 @@ const refreshAccessToken = async(req, res)=>{
   }
   catch(error){
     console.error(error);
-    return res.status(401).json({sucess:false, message:'Invalid refresh Token'});
+    return res.status(401).json({success:false, message:'Invalid refresh Token'});
   }
 
 }
