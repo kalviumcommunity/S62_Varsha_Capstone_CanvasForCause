@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import HeroCanvas from '../homepage/HeroCanvas';
 import { validateForm } from '../../utils/validationUtils';
+import authService from '../../services/authService';
 
 const Login = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     identifier: '',
     password: '',
@@ -13,6 +15,7 @@ const Login = () => {
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formSuccess, setFormSuccess] = useState(false);
+  const [serverError, setServerError] = useState('');
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -28,10 +31,19 @@ const Login = () => {
         [name]: ''
       }));
     }
+    if(serverError){
+      setServerError('');
+    }
   };
+  
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const loginData = {
+      identifier:formData.identifier,
+      password:formData.password,
+    }
     
     // Validate form
     const validationErrors = validateForm(formData);
@@ -40,27 +52,37 @@ const Login = () => {
     // If no errors, proceed with form submission
     if (Object.keys(validationErrors).length === 0) {
       setIsSubmitting(true);
-      
-      // Simulate API call
-      setTimeout(() => {
-        // Form submission logic would go here
-        // In a real implementation, here make an API call to the backend
-        
+      setServerError('');
+
+      try{
+        // eslint-disable-next-line no-unused-vars
+        const response = await authService.login(loginData);
         setIsSubmitting(false);
         setFormSuccess(true);
-        
-        // Reset form after successful submission
+
+        if(!formData.rememberMe){
+          localStorage.removeItem('token');
+          localStorage.removeItem('refreshToken');
+          localStorage.removeItem('tokenExpiry');
+          localStorage.removeItem('user');
+
+        }
+
         setFormData({
-          identifier: '',
-          password: '',
-          rememberMe: false
+          identifier:'',
+          password:'',
+          rememberMe:false,
         });
-        
-        // Reset success message after 3 seconds
-        setTimeout(() => {
-          setFormSuccess(false);
-        }, 3000);
-      }, 1000);
+
+        setTimeout(()=>{
+          navigate('/');
+        }, 1500);
+      }
+      catch(err){
+        setIsSubmitting(false);
+        setServerError(err.message||'Login failed, Please try again');
+        console.error("Login error", err);
+      }
     }
   };
 
@@ -91,7 +113,12 @@ const Login = () => {
             
             {formSuccess && (
               <div className="mb-4 text-purple font-medium text-center">
-                Login successful! Redirecting to your dashboard...
+                Login successful! Redirecting to your homepage..
+              </div>
+            )}
+            {serverError && (
+              <div className="mb-4 text-red-500 font-medium text-center">
+                {serverError}
               </div>
             )}
             

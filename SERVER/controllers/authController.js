@@ -1,6 +1,8 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/User.js');
 
+const isProduction = process.env.NODE_ENV === 'production' || false;
+
 const validatePassword = (password)=>{
   if(!password||password.length<6){
     return false;
@@ -72,13 +74,13 @@ const register = async (req, res) => {
 
     res.cookie('accessToken', token, {
       httpOnly:true,
-      secure:process.env.NODE_ENV==='production',
+      secure:isProduction,
       maxAge:15*60*1000,
     })
 
     res.cookie('refreshToken', refreshToken, {
       httpOnly:true,
-      secure:process.env.NODE_ENV==='production',
+      secure:isProduction,
       maxAge:7*24*60*60*1000
     })
 
@@ -132,7 +134,7 @@ const login = async (req, res) => {
     if (!isPasswordCorrect) {
       return res.status(401).json({
         success: false,
-        message: 'Invalid email or password'
+        message: 'Invalid Password'
       });
     }
 
@@ -145,12 +147,12 @@ const login = async (req, res) => {
 
     res.cookie('accessToken', token, {
       httpOnly:true,
-      secure:process.env.NODE_ENV==='production',
+      secure:isProduction,
       maxAge:15*60*1000,
     })
     res.cookie('refreshToken', refreshToken, {
       httpOnly:true,
-      secure:process.env.NODE_ENV==='production',
+      secure:isProduction,
       maxAge:7*24*60*60*1000
     })
 
@@ -158,6 +160,7 @@ const login = async (req, res) => {
       success: true,
       token,
       refreshToken,
+      expiresIn:15*60,
       user: {
         id: user._id,
         username: user.username,
@@ -199,7 +202,7 @@ const refreshAccessToken = async(req, res)=>{
 
     res.cookie('accessToken', newToken, {
       httpOnly:true,
-      secure:process.env.NODE_ENV==='production',
+      secure:isProduction,
       maxAge:15*60*1000
     })
     res.status(200).json({
