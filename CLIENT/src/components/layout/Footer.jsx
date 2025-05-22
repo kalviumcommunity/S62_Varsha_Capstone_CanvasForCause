@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Instagram, Twitter, Mail } from 'lucide-react';
 import { FaPinterestP } from 'react-icons/fa';
 
@@ -46,8 +47,8 @@ const Footer = () => {
           <div className="md:ml-12 text-center lg:text-left">
             <h4 className="text-base font-semibold mb-5">Company</h4>
             <ul className="space-y-3">
-              <li><a href="#" className="text-white/70 hover:text-teal transition-colors duration-300 text-sm">About Us</a></li>
-              <li><a href="#" className="text-white/70 hover:text-teal transition-colors duration-300 text-sm">Our Mission</a></li>
+              <li><Link to="/about-us" className="text-white/70 hover:text-teal transition-colors duration-300 text-sm">About Us</Link></li>
+              <li><Link to="/about-us#mission" className="text-white/70 hover:text-teal transition-colors duration-300 text-sm">Our Mission</Link></li>
               <li><a href="#" className="text-white/70 hover:text-teal transition-colors duration-300 text-sm">Team</a></li>
               <li><a href="#" className="text-white/70 hover:text-teal transition-colors duration-300 text-sm">Careers</a></li>
             </ul>
