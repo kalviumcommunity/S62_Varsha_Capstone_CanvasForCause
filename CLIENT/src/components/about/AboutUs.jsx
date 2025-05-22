@@ -1,4 +1,5 @@
 import React, {useEffect} from 'react';
+import { Link } from 'react-router-dom';
 import { Heart, Users, Palette, MessageCircle,Lightbulb } from 'lucide-react';
 import Navbar from '../layout/Navbar';
 import useScrollAnimation from '../../hooks/useScrollAnimation';
@@ -192,22 +193,22 @@ const AboutUs = () => {
               CanvasForCause welcomes you to express, connect, and heal through art.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a 
-                href="/signup" 
+              <Link 
+                to="/signup" 
                 className="bg-white text-purple px-6 py-3 rounded-full text-sm font-medium hover:bg-lavender transition-all duration-300 hover:scale-105 transform"
                 aria-label="Start creating today"
                 role="button"
               >
                 Start Creating Today
-              </a>
-              <a 
-                href="/gallery" 
+              </Link>
+              <Link 
+                to="/gallery" 
                 className="bg-transparent border border-white text-white px-6 py-3 rounded-full text-sm font-medium hover:bg-white/10 transition-all duration-300 hover:scale-105 transform"
                 aria-label="Explore gallery"
                 role="button"
               >
                 Explore Gallery
-              </a>
+              </Link>
             </div>
           </div>
         </div>

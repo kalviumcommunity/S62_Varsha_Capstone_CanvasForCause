@@ -43,6 +43,9 @@ const Navbar = () => {
               <a href="/" className="text-black-500 font-medium transition-colors hover:text-purple">Home</a>
             </li>
             <li className="ml-10">
+              <a href="/about-us" className="text-black-500 font-medium transition-colors hover:text-purple">About</a>
+            </li>
+            <li className="ml-10">
               <a href="/login" className="btn bg-purple hover:shadow-purple/30">Login</a>
             </li>
             <li className="ml-6">
