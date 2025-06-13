@@ -353,6 +353,21 @@ const uploadArtworkImage = async (req, res) => {
         message: 'Image data required'
       });
     }
+    // Validate image size (10MB limit for base64 data)
+    const sizeInBytes = Buffer.byteLength(imageData, 'utf8');
+    if (sizeInBytes > 10 * 1024 * 1024) {
+      return res.status(400).json({
+        success: false,
+        message: 'Image data too large. Maximum size is 10MB'
+      });
+    }
+    // Validate base64 format
+    if (!imageData.match(/^data:image\/(png|jpg|jpeg|gif|webp);base64,/)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid image format. Only PNG, JPG, JPEG, GIF, and WebP are allowed'
+      });
+    }
 
     // Ensure imageData is in proper base64 format
     let base64Data = imageData;

@@ -217,6 +217,21 @@ const saveCanvasImage = async (req, res) => {
         message: 'Invalid image data format'
       });
     }
+    const sizeInBytes = Buffer.byteLength(imageData, 'utf8');
+    if (sizeInBytes > 10 * 1024 * 1024) {
+      return res.status(400).json({
+        success: false,
+        message: 'Image data too large. Maximum size is 10MB'
+      });
+    }
+        // Validate base64 format
+    if (!imageData.match(/^data:image\/(png|jpg|jpeg|gif|webp);base64,/)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid image format. Only PNG, JPG, JPEG, GIF, and WebP are allowed'
+      });
+    }
+
     if (!title || title.trim() === '') {
       return res.status(400).json({
         success: false,
@@ -226,7 +241,7 @@ const saveCanvasImage = async (req, res) => {
 
     // Ensure imageData is in proper base64 format
     let base64Data = imageData;
-     base64Data = base64Data.replace(/::base64,/, ';base64,');
+     base64Data = base64Data.replace(/:base64,/, ';base64,');
 
      if (!base64Data.startsWith('data:image/')) {
       base64Data = `data:image/png;base64,${base64Data}`;

@@ -8,7 +8,7 @@ router.post('/create', authMiddleware, createCanvas);
 router.put('/update/:id', authMiddleware, updateCanvas);
 router.get('/load/:id', authMiddleware, loadCanvas);
 router.delete('/delete/:id', authMiddleware, deleteCanvas);
-router.post('/save-image', uploadLimiter,authMiddleware, saveCanvasImage);
+router.post('/save-image', authMiddleware, uploadLimiter, saveCanvasImage);
 router.get('/user-canvases', authMiddleware, getUserCanvases);
 
 module.exports=router;
