@@ -49,10 +49,10 @@ const Navbar = () => {
               <a href="#testimonials" className="text-black-500 font-medium transition-colors hover:text-purple">Community</a>
             </li>
             <li className="ml-10">
-              <a href="/login" className="btn bg-purple hover:shadow-purple/30">Login</a>
+              <Link to="/login" className="btn bg-purple hover:shadow-purple/30">Login</Link>
             </li>
             <li className="ml-6">
-              <a href="/signup" className="btn btn-secondary bg-lavender">Sign Up</a>
+              <Link to="/signup" className="btn btn-secondary bg-lavender">Sign Up</Link>
             </li>
           </ul>
         </nav>
