@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import CanvasForCauseLogo from "/src/assets/icons/CanvasForCauseLogo.png"
 
 const Navbar = () => {
@@ -43,13 +44,13 @@ const Navbar = () => {
               <a href="/" className="text-black-500 font-medium transition-colors hover:text-purple">Home</a>
             </li>
             <li className="ml-10">
-              <a href="/about-us" className="text-black-500 font-medium transition-colors hover:text-purple">About</a>
+              <Link to="/about-us" className="text-black-500 font-medium transition-colors hover:text-purple">About</Link>
             </li>
             <li className="ml-10">
-              <a href="/login" className="btn bg-purple hover:shadow-purple/30">Login</a>
+              <Link to="/login" className="btn bg-purple hover:shadow-purple/30">Login</Link>
             </li>
             <li className="ml-6">
-              <a href="/signup" className="btn btn-secondary bg-lavender">Sign Up</a>
+              <Link to="/signup" className="btn btn-secondary bg-lavender">Sign Up</Link>
             </li>
           </ul>
         </nav>
@@ -69,10 +70,10 @@ const Navbar = () => {
         <div className="md:hidden bg-white shadow-lg py-4">
           <ul className="flex flex-col items-center">
             <li className="py-2">
-              <a href="/login" className="btn bg-purple hover:shadow-purple/30 py-2.5 px-5 w-24 text-center" onClick={() => setMobileMenuOpen(false)}>Login</a>
+              <Link to ="/login" className="btn bg-purple hover:shadow-purple/30 py-2.5 px-5 w-24 text-center" onClick={() => setMobileMenuOpen(false)}>Login</Link>
             </li>
             <li className="py-2 mt-2">
-              <a href="/signup" className="btn btn-secondary bg-lavender py-2.5 px-5 w-24 text-center" onClick={() => setMobileMenuOpen(false)}>Sign Up</a>
+              <Link to ="/signup" className="btn btn-secondary bg-lavender py-2.5 px-5 w-24 text-center" onClick={() => setMobileMenuOpen(false)}>Sign Up</Link>
             </li>
           </ul>
         </div>
