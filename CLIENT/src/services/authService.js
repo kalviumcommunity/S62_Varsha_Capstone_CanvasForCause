@@ -67,8 +67,8 @@ const isAuthenticated = async () => {
   try {
     const response = await api.get('/auth/verify');
     return response.data.success;
-  // eslint-disable-next-line no-unused-vars
   } catch (error) {
+    console.log("Error authenticating", error);
     return false;
   }
 };
@@ -82,6 +82,24 @@ const getCurrentUser = () => {
   return JSON.parse(userStr);
 };
 
+// Google OAuth login
+const googleLogin = async (credentials) => {
+  try {
+    // Send the Google access token to our backend
+    const response = await api.post('/auth/google-login', credentials);
+    
+    // If successful, store user data
+    if (response.data.success) {
+      storeAuthData(response.data, true); // true = remember me
+    }
+    // Return the response data
+    return response.data;
+  } catch (error) {
+    // 4. Handle errors
+    throw error.response?.data || { success: false, message: 'Network error' };
+  }
+};
+
 
 const authService = {
   register,
@@ -89,6 +107,7 @@ const authService = {
   logout,
   getCurrentUser,
   isAuthenticated,
+  googleLogin
 };
 
 export default authService;

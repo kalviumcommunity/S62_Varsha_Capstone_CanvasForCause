@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import HeroCanvas from '../homepage/HeroCanvas';
+import HeroCanvas from '../LandingPage/HeroCanvas';
 import { validateForm } from '../../utils/validationUtils';
 import authService from '../../services/authService';
+import { useGoogleLogin } from "@react-oauth/google";
+import { FcGoogle } from 'react-icons/fc';
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -83,7 +85,37 @@ const Signup = () => {
       }
     }
   };
+  // Handle successful Google OAuth response
+  const handleGoogleSignup = async (credentialResponse) => {
+    setIsSubmitting(true);
+    setServerError("");
 
+    try {
+      await authService.googleLogin({
+        accessToken: credentialResponse.access_token,
+      });
+
+      setFormSuccess(true);
+
+      setTimeout(() => {
+        navigate("/");
+      }, 1500);
+    } catch (err) {
+      setServerError(err.message || "Google signup failed");
+      console.error("Google signup error", err);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  // Initialize Google login hook
+  const googleSignup = useGoogleLogin({
+    onSuccess: handleGoogleSignup,
+    onError: () => {
+      setServerError("Google authentication failed");
+    },
+  });
+  
   return (
     <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background Canvas */}
@@ -104,8 +136,8 @@ const Signup = () => {
         
         {/* Right Side - Signup Form */}
         <div className="w-full lg:w-1/2 lg:pl-12">
-          <div className="bg-white rounded-2xl shadow-xl p-6">
-            <div className="text-center mb-6">
+          <div className="bg-white rounded-2xl shadow-xl p-4">
+            <div className="text-center mb-4">
               <h2 className="text-3xl font-bold text-charcoal">Create Account</h2>
               <p className="text-charcoal/70 mt-1">Start your creative journey with us</p>
             </div>
@@ -122,7 +154,7 @@ const Signup = () => {
               </div>
             )}
             
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-2">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
                   <label htmlFor="name" className="block text-charcoal font-medium mb-1">Name</label>
@@ -132,7 +164,7 @@ const Signup = () => {
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
-                    className={`w-full px-4 py-2.5 rounded-full border ${errors.name ? 'border-red-500' : 'border-lavender'} focus:border-purple focus:ring-2 focus:ring-purple/30 outline-none transition-all`}
+                    className={`w-full px-4 py-2 rounded-full border ${errors.name ? 'border-red-500' : 'border-lavender'} focus:border-purple focus:ring-2 focus:ring-purple/30 outline-none transition-all`}
                     placeholder=""
                   />
                   {errors.name && (
@@ -148,7 +180,7 @@ const Signup = () => {
                     name="username"
                     value={formData.username}
                     onChange={handleChange}
-                    className={`w-full px-4 py-2.5 rounded-full border ${errors.username ? 'border-red-500' : 'border-lavender'} focus:border-purple focus:ring-2 focus:ring-purple/30 outline-none transition-all`}
+                    className={`w-full px-4 py-2 rounded-full border ${errors.username ? 'border-red-500' : 'border-lavender'} focus:border-purple focus:ring-2 focus:ring-purple/30 outline-none transition-all`}
                     placeholder=""
                   />
                   {errors.username && (
@@ -165,7 +197,7 @@ const Signup = () => {
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className={`w-full px-4 py-2.5 rounded-full border ${errors.email ? 'border-red-500' : 'border-lavender'} focus:border-purple focus:ring-2 focus:ring-purple/30 outline-none transition-all`}
+                  className={`w-full px-4 py-2 rounded-full border ${errors.email ? 'border-red-500' : 'border-lavender'} focus:border-purple focus:ring-2 focus:ring-purple/30 outline-none transition-all`}
                   placeholder=""
                 />
                 {errors.email && (
@@ -181,7 +213,7 @@ const Signup = () => {
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
-                  className={`w-full px-4 py-2.5 rounded-full border ${errors.password ? 'border-red-500' : 'border-lavender'} focus:border-purple focus:ring-2 focus:ring-purple/30 outline-none transition-all`}
+                  className={`w-full px-4 py-2 rounded-full border ${errors.password ? 'border-red-500' : 'border-lavender'} focus:border-purple focus:ring-2 focus:ring-purple/30 outline-none transition-all`}
                   placeholder="6+ characters"
                 />
                 {errors.password && (
@@ -196,7 +228,7 @@ const Signup = () => {
                   name="confirmPassword"
                   value={formData.confirmPassword}
                   onChange={handleChange}
-                  className={`w-full px-4 py-2.5 rounded-full border ${errors.confirmPassword ? 'border-red-500' : 'border-lavender'} focus:border-purple focus:ring-2 focus:ring-purple/30 outline-none transition-all`}
+                  className={`w-full px-4 py-2 rounded-full border ${errors.confirmPassword ? 'border-red-500' : 'border-lavender'} focus:border-purple focus:ring-2 focus:ring-purple/30 outline-none transition-all`}
                   placeholder=""
                 />
                 {errors.confirmPassword && (
@@ -244,6 +276,29 @@ const Signup = () => {
                 </Link>
               </p>
             </div>
+
+            {/* Divider */}
+            <div className="relative my-4">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-lavender"></div>
+              </div>
+              <div className="relative flex justify-center text-sm">
+                <span className="px-2 bg-white text-charcoal/70">
+                  Or continue with
+                </span>
+              </div>
+            </div>
+
+            {/* Google Signup Button */}
+            <button
+              type="button"
+              onClick={() => googleSignup()}
+              disabled={isSubmitting}
+              className="w-full bg-white hover:bg-gray-50 text-charcoal font-semibold py-2.5 px-7 rounded-full border-2 border-lavender transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
+            >
+              <FcGoogle className='w-6 h-6'/>
+              Continue with Google
+            </button>
           </div>
         </div>
         

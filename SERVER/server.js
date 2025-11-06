@@ -21,9 +21,7 @@ connectDatabase();
 app.use(generalLimiter);
 app.use(cors({
   origin: [
-    'https://s62-varsha-capstone-canvas-for-cause.vercel.app',
-    'http://localhost:5173',
-    'http://localhost:3000'
+    process.env.FRONTEND_URL 
   ],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
