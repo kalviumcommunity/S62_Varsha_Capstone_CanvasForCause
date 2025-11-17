@@ -115,4 +115,7 @@ Art has always been a universal language of self-expression, offering individual
 
 
 ### **DEPLOYED BACKEND LINK** 
-https://s62-varsha-capstone-canvasforcause-d9vp.onrender.com
+https://s62-varsha-capstone-canvasforcause.onrender.com
+
+### **DEPLOYED FRONTEND LINK**
+https://s62-varsha-capstone-canvas-for-cause.vercel.app
